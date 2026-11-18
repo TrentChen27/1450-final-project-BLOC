@@ -20,7 +20,7 @@ BLOC is a 3D tower-building game for 2–4 players sharing one computer. Players
 | Board | Handles camera, placement, validation and fall detection |
 | Bloc | Represents one physical piece with meshes and colliders |
 
-## System structure
+## Game structure
 
 Main starts and connects the systems. The game manager controls the rules, the HUD handles choices, and the board manages physical play.
 

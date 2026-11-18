@@ -10,6 +10,10 @@ The suggested invisible loss plane differs from the current defeat rule. Today, 
 
 ## 1. Main: startup and scene flow
 
+![Player-count selection at startup](images-local/bloc_setup.png)
+
+*The current setup screen offers 2, 3 or 4 players.*
+
 **Files:** `scripts/main.gd`, `scenes/Main.tscn`
 
 **Exists:** startup wiring, player-count selection, creation of the game manager and restart to setup.
@@ -20,11 +24,11 @@ The suggested invisible loss plane differs from the current defeat rule. Today, 
 - Make the two-player starting path obvious for the proof of concept.
 - Connect menu and result screens without creating duplicate game managers or leaving pending choices active.
 
-**Editor work:** menu and result scene layouts. **Code work:** button connections, game initialization and cleanup.
-
-**Complete when:** start → two-player game → result → restart works repeatedly, including restarting during placement.
-
 ## 2. HUD: prompts and player handoff
+
+![Begin turn prompt and player status sidebar](images-local/bloc_turn.png)
+
+*The handoff prompt identifies P2, with phase, scores and hands in the sidebar.*
 
 **File:** `scripts/hud.gd`
 
@@ -38,11 +42,11 @@ The suggested invisible loss plane differs from the current defeat rule. Today, 
 - Keep placement instructions, invalid-placement reasons and results readable without relying on the debug log.
 - Check long card text, scrolling and mouse/keyboard focus.
 
-**Editor work:** Control layouts, containers, fonts and theme. **Code work:** populate fields and connect choices to existing game methods.
-
-**Complete when:** two players can follow turns and card decisions without someone explaining which button to press; UI interaction does not accidentally move or release a bloc.
-
 ## 3. Game manager: turns and win/loss
+
+![Production turn with supply and card state](images-local/bloc_placement.png)
+
+*Visible game state during Production: one bloc has been drawn, and L08 is in P2’s hand. The manager itself has no separate screen.*
 
 **File:** `scripts/game.gd`
 
@@ -55,11 +59,11 @@ The suggested invisible loss plane differs from the current defeat rule. Today, 
 - Resolve whether the proof of concept keeps the current rules or uses the proposed immediate-loss plane.
 - If the rule changes, update defeat handling, result text, documentation and automated checks together.
 
-**Editor work:** result and phase display mockups. **Code work:** rules, state transitions and tests.
-
-**Complete when:** a two-player session starts, alternates correctly, ends under the agreed condition and restarts cleanly. Card reactions must still identify the correct decision-maker if cards remain enabled.
-
 ## 4. Board: tower, camera and fall detection
+
+![Focused tower and valid placement preview](images-local/bloc_placement.png)
+
+*The destination tower is isolated during placement, with the camera centered beside the sidebar.*
 
 **File:** `scripts/board.gd`
 
@@ -75,11 +79,11 @@ The suggested invisible loss plane differs from the current defeat rule. Today, 
 
 Current fall detection checks a placed body's center relative to its tower: below y = −0.3, or outside x/z bounds of −3 to 7. It is a coordinate check, not a saved plane or Area3D scene. A held preview does not count as fallen.
 
-**Editor work:** foundation visuals, materials and lighting. **Code work:** scene integration, camera framing and fall detection. A loss zone could be an Area3D or a coordinate check; either needs logic connecting it to defeat.
-
-**Complete when:** valid releases settle, invalid releases stay blocked, falls are reported once for the correct tower, and the camera remains usable throughout both players' turns.
-
 ## 5. Blocs: physical pieces and visuals
+
+![Compound bloc preview with piece ID and points](images-local/bloc_placement.png)
+
+*The held 3-B shape is shown as one piece, labeled #21 / +3. This is a placement preview, before physics release.*
 
 **File:** `scripts/bloc.gd`
 
@@ -92,11 +96,11 @@ Current fall detection checks a placed body's center relative to its tower: belo
 - Preserve alignment between the visible shape, colliders and placement bounds.
 - Test stacking, rotation and removing support pieces after any geometry or physics changes.
 
-**Editor work:** materials and visual samples. **Code work:** connect templates to the generated bodies and preserve geometry offsets.
-
-**Complete when:** each shape remains one physical piece, looks consistent with its collision shape, and behaves correctly when dropped or transferred.
-
 ## 6. Catalog: cards, shapes and supply
+
+![Catalog-backed card selector and supply controls](images-local/bloc_debug.png)
+
+*The debug selector uses catalog card entries. It is shown during placement here, so state-changing debug buttons are disabled.*
 
 **File:** `scripts/catalog.gd`
 
@@ -107,10 +111,6 @@ Current fall detection checks a placed body's center relative to its tower: belo
 - Keep the approved card list and shape definitions consistent with the rules.
 - If non-coders need to edit definitions regularly, expose them as Inspector-editable resources with code support for loading them.
 - Preserve unique piece IDs, supply quantities and draw fallback behavior during any data migration.
-
-**Editor work:** resource values once resource classes exist. **Code work:** resource definitions, loading, validation and card effects. Editing card text alone does not implement an effect.
-
-**Complete when:** the intended content loads without duplicates or missing entries, and supply and card checks pass. Data migration is optional for the first two-player playtest.
 
 ## Integration checks
 
@@ -128,5 +128,3 @@ Current fall detection checks a placed body's center relative to its tower: belo
 | Is loss measured by the piece center or any part of its geometry? | Body center |
 | Does the simplified version keep sideways fall detection? | Both vertical and horizontal fall bounds are checked |
 | Does the proof of concept retain legislation and Collapse? | Both are active |
-
-These decisions affect game behavior. They have not been applied by this documentation update.
