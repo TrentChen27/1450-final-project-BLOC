@@ -4,6 +4,10 @@ A playable 3D, 2–4 player local hot-seat prototype of BLOC. Built with Godot 4
 
 Follow [Get started](GETTING_STARTED.md) to clone the project, open it in Godot, and play.
 
+For team development, read the [current game status](docs/team/PROJECT_STATUS.md), then the [Godot team guide](docs/team/GODOT_TEAM_GUIDE.md) for editor workflows, programming handoffs, and testing.
+
+[Component Work Remaining](docs/team/COMPONENT_WORK.md) lists existing functionality, remaining tasks and the proposed two-player proof-of-concept scope.
+
 ## Run
 
 Open `project.godot` in Godot and press **F5**. Choose 2, 3, or 4 players. You can operate every player yourself: all hands are visible and each prompt says who makes the decision.

@@ -57,3 +57,5 @@ Use **Restart** in the sidebar to start a new game. Press **F8** in the editor t
 - **Godot reports script errors:** check that you opened this project's `project.godot` using Godot 4.7.2.
 
 See [README.md](README.md) for the rules, card testing tools, and more controls.
+
+To contribute, start with [Current game status](docs/team/PROJECT_STATUS.md) and [Working on BLOC in Godot](docs/team/GODOT_TEAM_GUIDE.md). They explain what already exists and how to work on menus, towers, blocs, game flow, UI, and art.
