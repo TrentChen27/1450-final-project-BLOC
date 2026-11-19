@@ -1,0 +1,82 @@
+[gd_scene load_steps=7 format=3]
+
+[sub_resource type="BoxShape3D" id="FloorShape"]
+size = Vector3(4, 0.44, 4)
+[sub_resource type="BoxMesh" id="FloorMesh"]
+size = Vector3(4, 0.44, 4)
+[sub_resource type="StandardMaterial3D" id="FloorMaterial"]
+albedo_color = Color(0.114, 0.27, 0.264, 1)
+[sub_resource type="BoxMesh" id="GridX"]
+size = Vector3(0.012, 0.012, 4)
+[sub_resource type="BoxMesh" id="GridZ"]
+size = Vector3(4, 0.012, 0.012)
+[sub_resource type="StandardMaterial3D" id="GridMaterial"]
+albedo_color = Color(0.467, 0.576, 0.608, 1)
+
+[node name="Tower" type="Node3D"]
+[node name="Foundation" type="StaticBody3D" parent="."]
+position = Vector3(2, -0.22, 2)
+[node name="Collision" type="CollisionShape3D" parent="Foundation"]
+shape = SubResource("FloorShape")
+[node name="Mesh" type="MeshInstance3D" parent="Foundation"]
+mesh = SubResource("FloorMesh")
+material_override = SubResource("FloorMaterial")
+[node name="Grid" type="Node3D" parent="."]
+
+[node name="X0" type="MeshInstance3D" parent="Grid"]
+position = Vector3(0, 0.005, 2)
+mesh = SubResource("GridX")
+material_override = SubResource("GridMaterial")
+
+[node name="Z0" type="MeshInstance3D" parent="Grid"]
+position = Vector3(2, 0.005, 0)
+mesh = SubResource("GridZ")
+material_override = SubResource("GridMaterial")
+
+[node name="X1" type="MeshInstance3D" parent="Grid"]
+position = Vector3(1, 0.005, 2)
+mesh = SubResource("GridX")
+material_override = SubResource("GridMaterial")
+
+[node name="Z1" type="MeshInstance3D" parent="Grid"]
+position = Vector3(2, 0.005, 1)
+mesh = SubResource("GridZ")
+material_override = SubResource("GridMaterial")
+
+[node name="X2" type="MeshInstance3D" parent="Grid"]
+position = Vector3(2, 0.005, 2)
+mesh = SubResource("GridX")
+material_override = SubResource("GridMaterial")
+
+[node name="Z2" type="MeshInstance3D" parent="Grid"]
+position = Vector3(2, 0.005, 2)
+mesh = SubResource("GridZ")
+material_override = SubResource("GridMaterial")
+
+[node name="X3" type="MeshInstance3D" parent="Grid"]
+position = Vector3(3, 0.005, 2)
+mesh = SubResource("GridX")
+material_override = SubResource("GridMaterial")
+
+[node name="Z3" type="MeshInstance3D" parent="Grid"]
+position = Vector3(2, 0.005, 3)
+mesh = SubResource("GridZ")
+material_override = SubResource("GridMaterial")
+
+[node name="X4" type="MeshInstance3D" parent="Grid"]
+position = Vector3(4, 0.005, 2)
+mesh = SubResource("GridX")
+material_override = SubResource("GridMaterial")
+
+[node name="Z4" type="MeshInstance3D" parent="Grid"]
+position = Vector3(2, 0.005, 4)
+mesh = SubResource("GridZ")
+material_override = SubResource("GridMaterial")
+
+[node name="PlayerLabel" type="Label3D" parent="."]
+position = Vector3(2, 0, 5)
+pixel_size = 0.012
+billboard = 1
+text = "PLAYER 1"
+font_size = 56
+modulate = Color(0.325, 0.773, 0.753, 1)

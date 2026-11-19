@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource type="PackedScene" path="res://scenes/ui/ChoiceButton.tscn" id="1"]
+[node name="Results" type="PanelContainer"]
+offset_left = 24.0
+offset_top = 140.0
+offset_right = 824.0
+[node name="Padding" type="MarginContainer" parent="."]
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_bottom = 18
+[node name="Content" type="VBoxContainer" parent="Padding"]
+theme_override_constants/separation = 12
+[node name="Heading" type="Label" parent="Padding/Content"]
+text = "GAME OVER"
+theme_override_font_sizes/font_size = 24
+[node name="ResultText" type="Label" parent="Padding/Content"]
+unique_name_in_owner = true
+text = "P1 wins — final scores appear here"
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 20
+[node name="Restart" parent="Padding/Content" instance=ExtResource("1")]
+unique_name_in_owner = true
+text = "New game / player selection"

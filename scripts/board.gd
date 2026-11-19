@@ -6,8 +6,9 @@ signal bloc_fell(owner: int, data: Dictionary, action_id: int)
 signal defeated(owner: int)
 signal instruction(text: String)
 
-const BlocScript = preload("res://scripts/bloc.gd")
-const COLORS := [Color("53c5c0"), Color("efbd62"), Color("a399ee"), Color("ec8298")]
+const BlocScene = preload("res://scenes/blocs/Bloc.tscn")
+const TowerScene = preload("res://scenes/board/Tower.tscn")
+@export var player_colors: Array[Color] = [Color("53c5c0"), Color("efbd62"), Color("a399ee"), Color("ec8298")]
 @export var stable_duration := 0.75
 @export var linear_threshold := 0.08
 @export var angular_threshold := 0.08
@@ -39,76 +40,42 @@ var zoom_factor := 1.0
 var rotating := false
 
 func _ready() -> void:
-	var environment := WorldEnvironment.new()
-	environment.environment = Environment.new()
-	environment.environment.background_mode = Environment.BG_COLOR
-	environment.environment.background_color = Color("172331")
-	environment.environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-	environment.environment.ambient_light_color = Color.WHITE
-	environment.environment.ambient_light_energy = 0.65
-	add_child(environment)
-	var light := DirectionalLight3D.new()
-	light.rotation_degrees = Vector3(-55, -25, 0)
-	light.light_energy = 1.3
-	light.shadow_enabled = true
-	add_child(light)
-	camera = Camera3D.new()
-	camera.far = 5000.0
-	camera.current = true
-	add_child(camera)
+	# Saved examples are for editor composition only, never the finite supply.
+	var examples := get_node_or_null("EditorBlocPreviews")
+	if examples != null:
+		examples.free()
+	camera = $Camera3D
 	_update_camera()
 
 func setup(count: int) -> void:
+	var towers := $Towers
+	while towers.get_child_count() > count:
+		towers.get_child(towers.get_child_count() - 1).free()
 	for i in range(count):
-		var origin := Vector3((i % 2) * 14, 0, (i / 2) * 14)
-		origins.append(origin)
-		tower_visuals.append([])
+		var tower: Node3D
+		var generated := i >= towers.get_child_count()
+		if i < towers.get_child_count():
+			tower = towers.get_child(i)
+		else:
+			tower = TowerScene.instantiate()
+			tower.name = "Player%d" % (i + 1)
+			tower.position = Vector3((i % 2) * 14, 0, (i / 2) * 14)
+			towers.add_child(tower)
+		# Saved tower transforms and materials are authoritative.
+		origins.append(to_local(tower.global_position))
+		tower_visuals.append([tower])
 		fallen_counts.append(0)
 		last_actions.append(0)
 		action_falls.append(0)
 		last_fall_tick.append(0)
-		var floor_body := StaticBody3D.new()
-		floor_body.position = origin + Vector3(2, -0.22, 2)
-		var collision := CollisionShape3D.new()
-		var box := BoxShape3D.new()
-		box.size = Vector3(4, 0.44, 4)
-		collision.shape = box
-		floor_body.add_child(collision)
-		var mesh := MeshInstance3D.new()
-		var box_mesh := BoxMesh.new()
-		box_mesh.size = box.size
-		mesh.mesh = box_mesh
-		var material := StandardMaterial3D.new()
-		material.albedo_color = COLORS[i].darkened(0.65)
-		mesh.material_override = material
-		floor_body.add_child(mesh)
-		add_child(floor_body)
-		tower_visuals[i].append(floor_body)
-		for x in range(5):
-			tower_visuals[i].append(_grid_line(origin + Vector3(x, 0.005, 2), Vector3(0.012, 0.012, 4)))
-			tower_visuals[i].append(_grid_line(origin + Vector3(2, 0.005, x), Vector3(4, 0.012, 0.012)))
-		var label := Label3D.new()
+		var label: Label3D = tower.get_node("PlayerLabel")
 		label.text = "PLAYER %d" % (i + 1)
-		label.position = origin + Vector3(2, 0, 5)
-		label.font_size = 56
-		label.pixel_size = 0.012
-		label.modulate = COLORS[i]
-		label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
-		add_child(label)
-		tower_visuals[i].append(label)
+		label.modulate = player_colors[i]
+		if generated:
+			var mesh: MeshInstance3D = tower.get_node("Foundation/Mesh")
+			mesh.material_override = mesh.material_override.duplicate()
+			mesh.material_override.albedo_color = player_colors[i].darkened(0.65)
 	focus_tower(0)
-
-func _grid_line(at: Vector3, size: Vector3) -> MeshInstance3D:
-	var mesh := MeshInstance3D.new()
-	var box := BoxMesh.new()
-	box.size = size
-	mesh.mesh = box
-	mesh.position = at
-	var material := StandardMaterial3D.new()
-	material.albedo_color = Color("77939b")
-	mesh.material_override = material
-	add_child(mesh)
-	return mesh
 
 func focus_tower(owner: int) -> void:
 	if origins.is_empty():
@@ -165,8 +132,13 @@ func height(owner: int) -> float:
 	return maximum
 
 func create_bloc(data: Dictionary):
-	var bloc = BlocScript.new()
-	bloc.build(data, COLORS[maxi(0, data.get("color_owner", 0)) % 4])
+	var packed: PackedScene = BlocScene
+	if data.card != 0:
+		packed = preload("res://scenes/blocs/PhysicalCard.tscn")
+	elif data.has("scene_path"):
+		packed = load(data.scene_path)
+	var bloc = packed.instantiate()
+	bloc.build(data, player_colors[maxi(0, data.get("color_owner", 0)) % 4])
 	bloc.collision_layer = 0
 	bloc.collision_mask = 0
 	add_child(bloc)
@@ -200,7 +172,7 @@ func place(item, owner: int, controller: int, minimum_height := -INF) -> bool:
 	preview = null
 	if not begin_action(owner):
 		return false
-	released.material.albedo_color = COLORS[owner]
+	released.set_tint(player_colors[owner])
 	released.collision_layer = 1
 	released.collision_mask = 1
 	released.placed = true
@@ -223,7 +195,7 @@ func _update_preview() -> void:
 	preview.basis = rotation_basis
 	preview.position = origins[preview_owner] + Vector3(grid) + Vector3.ONE * 0.5 + rotation_basis * preview.center
 	valid_preview = placement_valid(preview, preview_owner, preview_minimum)
-	preview.material.albedo_color = Color("56e6b2") if valid_preview else Color("ef6565")
+	preview.set_tint(Color("56e6b2") if valid_preview else Color("ef6565"))
 	focus = origins[preview_owner] + Vector3(2, maxf(1.0, maxf(height(preview_owner), preview.max_height()) * 0.5), 2)
 	_update_camera()
 

@@ -16,13 +16,13 @@ The suggested invisible loss plane differs from the current defeat rule. Today, 
 
 **Files:** `scripts/main.gd`, `scenes/Main.tscn`
 
-**Exists:** startup wiring, player-count selection, creation of the game manager and restart to setup.
+**Exists:** startup wiring, saved Board/HUD instances, editable player-count menu, creation of the game manager and restart to setup.
 
 **Remaining work:**
 
-- Create an editor-built menu and clear start/restart flow.
+- Polish the saved menu and start/restart presentation.
 - Make the two-player starting path obvious for the proof of concept.
-- Connect menu and result screens without creating duplicate game managers or leaving pending choices active.
+- Polish the dedicated Results scene and its final score presentation.
 
 ## 2. HUD: prompts and player handoff
 
@@ -30,13 +30,13 @@ The suggested invisible loss plane differs from the current defeat rule. Today, 
 
 *The handoff prompt identifies P2, with phase, scores and hands in the sidebar.*
 
-**File:** `scripts/hud.gd`
+**Files:** `scripts/hud.gd`, `scenes/ui/HUD.tscn`, `MainMenu.tscn`, `ActionPrompt.tscn`, `Results.tscn`, `DiscardDialog.tscn` and reusable row templates
 
 **Exists:** instructions, choices, scores, visible hands, discard dialog, event log and debug tools. Prompts identify the player making a decision.
 
 **Remaining work:**
 
-- Move generated controls into reusable UI scenes that can be edited visually.
+- Polish the saved UI scenes and introduce a shared theme if needed. Hand entries and legal choices are still populated dynamically from saved templates.
 - Make the active player and the person currently expected to act easy to identify. Card effects can make these different people.
 - Make the handoff between players clear using the existing Begin turn checkpoint.
 - Keep placement instructions, invalid-placement reasons and results readable without relying on the debug log.
@@ -65,15 +65,15 @@ The suggested invisible loss plane differs from the current defeat rule. Today, 
 
 *The destination tower is isolated during placement, with the camera centered beside the sidebar.*
 
-**File:** `scripts/board.gd`
+**Files:** `scripts/board.gd`, `scenes/board/Board.tscn`, `scenes/board/Tower.tscn`
 
 **Exists:** foundations, focused placement view, orbit/zoom, camera-relative movement, placement validation, physics settlement and fall monitoring.
 
 **Remaining work:**
 
-- Extract the tower presentation into an editable scene while preserving the existing 4×4 footprint and collision geometry.
-- Expose useful visual and camera settings in the Inspector.
-- Keep the destination tower centered when UI layout changes.
+- Polish the saved tower scene while preserving its 4×4 footprint and collision geometry.
+- Camera FOV, lighting, materials, player colors and settlement settings are editable. Orbit positioning and grid rules remain script-controlled.
+- Verify camera framing after UI changes; sidebar width is now synchronized automatically.
 - Test the simple drop-and-settle mechanic for predictable, readable results; high-fidelity simulation is not required.
 - If adopted, implement the agreed loss-plane behavior and report the defeated owner to the game manager.
 
@@ -85,13 +85,13 @@ Current fall detection checks a placed body's center relative to its tower: belo
 
 *The held 3-B shape is shown as one piece, labeled #21 / +3. This is a placement preview, before physics release.*
 
-**File:** `scripts/bloc.gd`
+**Files:** `scripts/bloc.gd`, `scenes/blocs/Bloc.tscn`, `UnitCell.tscn`, `CardCell.tscn`
 
 **Exists:** a single rigid body per bloc, compound cube meshes/colliders, identity, ownership and point labels.
 
 **Remaining work:**
 
-- Provide reusable visual templates or exposed materials for editor-based changes.
+- Polish the saved cell templates and body label. All ten production shapes are saved scenes; tint, identity, centering and mass are assigned at runtime.
 - Keep simple cube-based shapes for the proof of concept.
 - Preserve alignment between the visible shape, colliders and placement bounds.
 - Test stacking, rotation and removing support pieces after any geometry or physics changes.
@@ -102,14 +102,14 @@ Current fall detection checks a placed body's center relative to its tower: belo
 
 *The debug selector uses catalog card entries. It is shown during placement here, so state-changing debug buttons are disabled.*
 
-**File:** `scripts/catalog.gd`
+**Files:** `scripts/catalog.gd`, `scenes/blocs/shapes/`
 
 **Exists:** ten shapes, 30 supply blocs, restricted draws and 11 cards with IDs L05–L15.
 
 **Remaining work:**
 
 - Keep the approved card list and shape definitions consistent with the rules.
-- If non-coders need to edit definitions regularly, expose them as Inspector-editable resources with code support for loading them.
+- Shape geometry is now read from editable scenes. Card definitions, supply quantities and effect logic still require script changes.
 - Preserve unique piece IDs, supply quantities and draw fallback behavior during any data migration.
 
 ## Integration checks

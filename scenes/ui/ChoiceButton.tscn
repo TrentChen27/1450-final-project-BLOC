@@ -1,0 +1,7 @@
+[gd_scene format=3]
+
+[node name="ChoiceButton" type="Button" unique_id=281765262]
+custom_minimum_size = Vector2(0, 42)
+text = "Choose action"
+alignment = 0
+autowrap_mode = 3

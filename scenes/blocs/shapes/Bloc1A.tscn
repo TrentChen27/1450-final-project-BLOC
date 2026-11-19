@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3]
+[ext_resource type="PackedScene" path="res://scenes/blocs/Bloc.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/blocs/UnitCell.tscn" id="2"]
+
+[node name="Bloc1A" instance=ExtResource("1")]
+authored_shape = true
+[node name="SampleCell" parent="." index="0"]
+position = Vector3(0, 0, 0)
+[node name="ValueLabel" parent="." index="1"]
+text = "1-A / +1"
+[node name="Cell2" parent="." instance=ExtResource("2")]
+position = Vector3(1, 0, 0)
+[editable path="SampleCell"]
+[editable path="Cell2"]

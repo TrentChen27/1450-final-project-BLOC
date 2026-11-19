@@ -1,0 +1,17 @@
+[gd_scene format=3]
+[node name="PlayerHand" type="VBoxContainer"]
+size_flags_horizontal = 3
+[node name="PlayerLabel" type="Label" parent="."]
+unique_name_in_owner = true
+text = "P1 / ACTIVE"
+theme_override_font_sizes/font_size = 16
+mouse_filter = 2
+autowrap_mode = 3
+[node name="EmptyMessage" type="Label" parent="."]
+unique_name_in_owner = true
+text = "No cards"
+theme_override_font_sizes/font_size = 13
+mouse_filter = 2
+[node name="Cards" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+size_flags_horizontal = 3

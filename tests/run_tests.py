@@ -8,7 +8,7 @@ project = Path(__file__).resolve().parent.parent
 godot = shutil.which("godot") or shutil.which("godot4")
 if not godot:
     sys.exit("Godot executable not found on PATH")
-suites = ["catalog_test", "rules_test", "physics_test", "integration_test", "camera_test", "playthrough_test"]
+suites = ["catalog_test", "rules_test", "physics_test", "integration_test", "camera_test", "playthrough_test", "editor_scene_test", "presentation_test"]
 failed = False
 for suite in suites:
     result = subprocess.run(
@@ -20,5 +20,5 @@ for suite in suites:
     print(output.strip())
     bad = result.returncode != 0 or "ERROR:" in output or "PASS " not in output
     failed |= bad
-print("FAIL: inspect errors above" if failed else "PASS: all six suites")
+print("FAIL: inspect errors above" if failed else f"PASS: all {len(suites)} suites")
 sys.exit(1 if failed else 0)

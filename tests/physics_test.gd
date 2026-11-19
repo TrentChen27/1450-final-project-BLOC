@@ -1,5 +1,5 @@
 extends SceneTree
-const BoardScript = preload("res://scripts/board.gd")
+const BoardScript = preload("res://scenes/board/Board.tscn")
 const Catalog = preload("res://scripts/catalog.gd")
 var checks := 0
 var failures := 0
@@ -19,7 +19,7 @@ func wait_settle() -> void:
 func data(id: int) -> Dictionary:
 	return {"id": id, "value": 1, "shape": "test cube", "cells": [Vector3i.ZERO], "card": 0}
 func run_tests() -> void:
-	board = BoardScript.new()
+	board = BoardScript.instantiate()
 	root.add_child(board)
 	board.setup(2)
 	await physics_frame

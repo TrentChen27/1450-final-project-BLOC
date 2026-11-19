@@ -1,0 +1,62 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/ui/ChoiceButton.tscn" id="1_vjtqc"]
+
+[node name="MainMenu" type="PanelContainer" unique_id=1114708061]
+unique_name_in_owner = true
+offset_left = 24.0
+offset_top = 140.0
+offset_right = 824.0
+offset_bottom = 140.0
+
+[node name="Padding" type="MarginContainer" parent="." unique_id=2011051320]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 18
+
+[node name="Content" type="VBoxContainer" parent="Padding" unique_id=259524062]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="PromptLabel" type="Label" parent="Padding/Content" unique_id=472416172]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Choose players. All hands are visible for playtesting.
+Build on your 4 × 4 mat; four fallen pieces in one action means defeat."
+autowrap_mode = 3
+
+[node name="ChoicesScroll" type="ScrollContainer" parent="Padding/Content" unique_id=1792453042]
+custom_minimum_size = Vector2(750, 290)
+layout_mode = 2
+
+[node name="Options" type="VBoxContainer" parent="Padding/Content/ChoicesScroll" unique_id=2136297842]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Players2" type="Button" parent="Padding/Content/ChoicesScroll/Options" unique_id=281765262 instance=ExtResource("1_vjtqc")]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+text = "Start 2-player game"
+alignment = 0
+autowrap_mode = 3
+metadata/player_count = 2
+
+[node name="Players3" type="Button" parent="Padding/Content/ChoicesScroll/Options" unique_id=1460818912 instance=ExtResource("1_vjtqc")]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+text = "Start 3-player game"
+alignment = 0
+autowrap_mode = 3
+metadata/player_count = 3
+
+[node name="Players4" type="Button" parent="Padding/Content/ChoicesScroll/Options" unique_id=1181111705 instance=ExtResource("1_vjtqc")]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+text = "Start 4-player game"
+alignment = 0
+autowrap_mode = 3
+metadata/player_count = 4

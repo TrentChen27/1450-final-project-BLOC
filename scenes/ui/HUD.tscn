@@ -1,0 +1,238 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/hud.gd" id="1_atyv1"]
+[ext_resource type="PackedScene" path="res://scenes/ui/MainMenu.tscn" id="2_6ll6g"]
+
+[ext_resource type="PackedScene" path="res://scenes/ui/ActionPrompt.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://scenes/ui/Results.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://scenes/ui/DiscardDialog.tscn" id="5"]
+[ext_resource type="Theme" path="res://scenes/ui/GameTheme.tres" id="6"]
+
+[node name="HUD" type="CanvasLayer" unique_id=1250143754]
+script = ExtResource("1_atyv1")
+
+[node name="Root" type="Control" parent="." unique_id=1129880169]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+theme = ExtResource("6")
+
+[node name="Status" type="Label" parent="Root" unique_id=1988829372]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 20.0
+offset_top = 18.0
+offset_right = 870.0
+offset_bottom = 108.0
+theme_override_font_sizes/font_size = 20
+text = "BLOC
+A hot-seat tower-building rules prototype"
+autowrap_mode = 3
+
+[node name="Sidebar" type="PanelContainer" parent="Root" unique_id=719782346]
+unique_name_in_owner = true
+layout_mode = 0
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -370.0
+
+[node name="SidebarScroll" type="ScrollContainer" parent="Root/Sidebar" unique_id=989023294]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="SidebarMargin" type="MarginContainer" parent="Root/Sidebar/SidebarScroll" unique_id=1044873172]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 14
+
+[node name="Column" type="VBoxContainer" parent="Root/Sidebar/SidebarScroll/SidebarMargin" unique_id=507635148]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="Root/Sidebar/SidebarScroll/SidebarMargin/Column" unique_id=1315767410]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "BLOC / RULES LAB"
+autowrap_mode = 3
+
+[node name="Scores" type="Label" parent="Root/Sidebar/SidebarScroll/SidebarMargin/Column" unique_id=474098832]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "Production / P1
+Supply 30 · Deck 11 · Discard 0
+P1   0 points / 0 fallen
+P2   0 points / 0 fallen"
+autowrap_mode = 3
+
+[node name="Toolbar" type="HBoxContainer" parent="Root/Sidebar/SidebarScroll/SidebarMargin/Column" unique_id=1847916058]
+layout_mode = 2
+
+[node name="Discard" type="Button" parent="Root/Sidebar/SidebarScroll/SidebarMargin/Column/Toolbar" unique_id=1019292402]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+focus_mode = 0
+text = "Discard pile"
+
+[node name="Restart" type="Button" parent="Root/Sidebar/SidebarScroll/SidebarMargin/Column/Toolbar" unique_id=958738]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+focus_mode = 0
+text = "Restart"
+
+[node name="HandsHeading" type="Label" parent="Root/Sidebar/SidebarScroll/SidebarMargin/Column" unique_id=1801187243]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "ALL HANDS / hover for full effects"
+autowrap_mode = 3
+
+[node name="HandsScroll" type="ScrollContainer" parent="Root/Sidebar/SidebarScroll/SidebarMargin/Column" unique_id=586592423]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Hands" type="VBoxContainer" parent="Root/Sidebar/SidebarScroll/SidebarMargin/Column/HandsScroll" unique_id=89053663]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DebugToggle" type="CheckButton" parent="Root/Sidebar/SidebarScroll/SidebarMargin/Column" unique_id=223952540]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+text = "Playtest / debug controls"
+
+[node name="DebugPanel" type="VBoxContainer" parent="Root/Sidebar/SidebarScroll/SidebarMargin/Column" unique_id=842451441]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="CardPicker" type="OptionButton" parent="Root/Sidebar/SidebarScroll/SidebarMargin/Column/DebugPanel" unique_id=798337917]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="DebugSettings" type="HBoxContainer" parent="Root/Sidebar/SidebarScroll/SidebarMargin/Column/DebugPanel" unique_id=1433611070]
+layout_mode = 2
+
+[node name="PlayerPicker" type="OptionButton" parent="Root/Sidebar/SidebarScroll/SidebarMargin/Column/DebugPanel/DebugSettings" unique_id=1166094157]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PointsPicker" type="SpinBox" parent="Root/Sidebar/SidebarScroll/SidebarMargin/Column/DebugPanel/DebugSettings" unique_id=1444543996]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 1.0
+max_value = 5.0
+value = 3.0
+
+[node name="ForceCard" type="Button" parent="Root/Sidebar/SidebarScroll/SidebarMargin/Column/DebugPanel" unique_id=1145539676]
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+focus_mode = 0
+text = "Force next card"
+metadata/action = "force"
+
+[node name="GiveCard" type="Button" parent="Root/Sidebar/SidebarScroll/SidebarMargin/Column/DebugPanel" unique_id=1524206739]
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+focus_mode = 0
+text = "Give card to player"
+metadata/action = "give"
+
+[node name="PlaceSupply" type="Button" parent="Root/Sidebar/SidebarScroll/SidebarMargin/Column/DebugPanel" unique_id=22154214]
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+focus_mode = 0
+text = "Place supply bloc"
+metadata/action = "spawn"
+
+[node name="AddTest" type="Button" parent="Root/Sidebar/SidebarScroll/SidebarMargin/Column/DebugPanel" unique_id=853178028]
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+focus_mode = 0
+text = "Add test bloc"
+metadata/action = "add"
+
+[node name="RemoveBloc" type="Button" parent="Root/Sidebar/SidebarScroll/SidebarMargin/Column/DebugPanel" unique_id=2145791711]
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+focus_mode = 0
+text = "Remove tower bloc"
+metadata/action = "remove"
+
+[node name="EmptySupply" type="Button" parent="Root/Sidebar/SidebarScroll/SidebarMargin/Column/DebugPanel" unique_id=1768904686]
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+focus_mode = 0
+text = "Empty supply"
+metadata/action = "empty"
+
+[node name="NextPlayer" type="Button" parent="Root/Sidebar/SidebarScroll/SidebarMargin/Column/DebugPanel" unique_id=841660490]
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+focus_mode = 0
+text = "Next player"
+metadata/action = "next"
+
+[node name="DebugHelp" type="Label" parent="Root/Sidebar/SidebarScroll/SidebarMargin/Column/DebugPanel" unique_id=1253089683]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Mutations available at turn checkpoints only."
+autowrap_mode = 3
+
+[node name="PauseAfter" type="CheckButton" parent="Root/Sidebar/SidebarScroll/SidebarMargin/Column/DebugPanel" unique_id=1706992834]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+text = "Pause after each physical action"
+
+[node name="SlowPhysics" type="CheckButton" parent="Root/Sidebar/SidebarScroll/SidebarMargin/Column/DebugPanel" unique_id=1893242053]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+text = "Slow physics (0.35×)"
+
+[node name="LogHeading" type="Label" parent="Root/Sidebar/SidebarScroll/SidebarMargin/Column" unique_id=531160015]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "EVENT LOG"
+autowrap_mode = 3
+
+[node name="EventLog" type="RichTextLabel" parent="Root/Sidebar/SidebarScroll/SidebarMargin/Column" unique_id=1163433888]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 145)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 14
+text = "Game events appear here."
+scroll_following = true
+
+[node name="ActionPrompt" parent="Root" instance=ExtResource("3")]
+visible = false
+
+[node name="MainMenu" type="PanelContainer" parent="Root" unique_id=1114708061 instance=ExtResource("2_6ll6g")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 24.0
+offset_top = 140.0
+offset_right = 824.0
+offset_bottom = 140.0
+
+[node name="Results" parent="Root" instance=ExtResource("4")]
+visible = false
+[node name="DiscardDialog" parent="Root" instance=ExtResource("5")]
+visible = false
+[editable path="Root/MainMenu"]
+[editable path="Root/ActionPrompt"]
+[editable path="Root/Results"]
+[editable path="Root/DiscardDialog"]

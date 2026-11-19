@@ -40,6 +40,6 @@ flowchart TD
 
 ## Current implementation
 
-The prototype has the full turn loop, 30 supply blocs, 11 legislation cards, physics, camera controls, scoring and restart. Most visuals and UI are generated in GDScript. Reusable editor-built scenes and final presentation are not yet implemented. Online multiplayer, separate controller assignment, AI, save/load and audio are not included.
+The prototype has the full turn loop, 30 supply blocs, 11 legislation cards, physics, camera controls, scoring and restart. The board, towers, menu, HUD, results, discard view and all ten bloc shapes are saved as editable Godot scenes. Scripts populate choices, hands and live values at runtime. Final visual polish is not yet implemented. Online multiplayer, separate controller assignment, AI, save/load and audio are not included.
 
 See [Component Work Remaining](COMPONENT_WORK.md) for existing functionality, remaining tasks and the proposed two-player proof-of-concept scope.

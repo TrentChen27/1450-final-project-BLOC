@@ -22,4 +22,10 @@ func run_preview() -> void:
 	await capture("/tmp/bloc_placement.png")
 	scene.hud.debug_panel.show()
 	await capture("/tmp/bloc_debug.png")
+	scene.game.discard = [8]
+	scene.hud._show_discard()
+	await capture("/tmp/bloc_discard.png")
+	scene.hud.get_node("Root/DiscardDialog").hide()
+	scene.game._defeated(1)
+	await capture("/tmp/bloc_results.png")
 	quit()

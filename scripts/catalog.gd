@@ -15,21 +15,29 @@ static func cards() -> Dictionary:
 		15: {"name": "Extended Session", "timing": "REACTION", "effect": "At another player's turn end, give that player one extra normal turn. Extra turns cannot be extended again."},
 	}
 
+static func shape_path(value: int, variant: int) -> String:
+	return "res://scenes/blocs/shapes/Bloc%d%s.tscn" % [value, "A" if variant == 0 else "B"]
+
 static func shapes() -> Dictionary:
-	return {
-		1: [[Vector3i(0,0,0), Vector3i(1,0,0)], [Vector3i(0,0,0), Vector3i(1,0,0), Vector3i(0,0,1)]],
-		2: [[Vector3i(0,0,0), Vector3i(1,0,0), Vector3i(2,0,0)], [Vector3i(0,0,0), Vector3i(1,0,0), Vector3i(2,0,0), Vector3i(0,0,1)]],
-		3: [[Vector3i(0,0,0), Vector3i(1,0,0), Vector3i(2,0,0), Vector3i(1,0,1)], [Vector3i(0,0,0), Vector3i(1,0,0), Vector3i(1,1,0), Vector3i(2,1,0)]],
-		4: [[Vector3i(0,0,0), Vector3i(0,1,0), Vector3i(1,1,0), Vector3i(2,1,0), Vector3i(2,1,1)], [Vector3i(0,0,0), Vector3i(1,0,0), Vector3i(1,1,0), Vector3i(1,1,1), Vector3i(2,1,1)]],
-		5: [[Vector3i(0,0,0), Vector3i(0,1,0), Vector3i(0,2,0), Vector3i(1,2,0), Vector3i(2,2,0)], [Vector3i(0,0,0), Vector3i(0,1,0), Vector3i(0,2,0), Vector3i(1,2,0), Vector3i(1,2,1)]],
-	}
+	var definitions := {}
+	for value in range(1, 6):
+		definitions[value] = []
+		for variant in range(2):
+			var body = load(shape_path(value, variant)).instantiate()
+			var cells := []
+			for child in body.get_children():
+				if child is CollisionShape3D:
+					cells.append(Vector3i(child.position.round()))
+			definitions[value].append(cells)
+			body.free()
+	return definitions
 
 static func build_pool(rng: RandomNumberGenerator) -> Array:
 	var pool: Array = []
 	var geometry := shapes()
 	for value in range(1, 6):
 		for i in range(9 - value):
-			pool.append({"id": pool.size() + 1, "value": value, "cells": geometry[value][i % 2].duplicate(), "shape": "%d-%s" % [value, "A" if i % 2 == 0 else "B"], "card": 0})
+			pool.append({"id": pool.size() + 1, "value": value, "cells": geometry[value][i % 2].duplicate(), "shape": "%d-%s" % [value, "A" if i % 2 == 0 else "B"], "card": 0, "scene_path": shape_path(value, i % 2)})
 	# Fisher–Yates with a dedicated generator for repeatable tests.
 	for i in range(pool.size() - 1, 0, -1):
 		var j := rng.randi_range(0, i)

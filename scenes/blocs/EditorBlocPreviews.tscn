@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3]
+[ext_resource type="PackedScene" path="res://scenes/blocs/shapes/Bloc1A.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/blocs/shapes/Bloc1B.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/blocs/BlocLibrary.tscn" id="3"]
+[node name="EditorBlocPreviews" type="Node3D"]
+[node name="Shape1A" parent="." instance=ExtResource("1")]
+position = Vector3(0.5, 0.5, 1.5)
+collision_layer = 0
+collision_mask = 0
+[node name="Shape1B" parent="." instance=ExtResource("2")]
+position = Vector3(14.5, 0.5, 0.5)
+collision_layer = 0
+collision_mask = 0
+[node name="AllShapes" parent="." instance=ExtResource("3")]
+position = Vector3(0, 0, 10)
+[node name="PreviewLabel" type="Label3D" parent="."]
+position = Vector3(8, 0, 9)
+text = "BLOC LIBRARY / EDITOR ONLY"
+billboard = 1
+font_size = 48
+pixel_size = 0.012
+[editable path="Shape1A"]
+[editable path="Shape1B"]
+[editable path="AllShapes"]

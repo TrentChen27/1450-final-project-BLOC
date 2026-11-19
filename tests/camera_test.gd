@@ -7,7 +7,7 @@ func check(ok: bool, message: String) -> void:
 		push_error(message)
 func run_checks() -> void:
 	root.size = Vector2i(1280, 800)
-	var board = load("res://scripts/board.gd").new()
+	var board = load("res://scenes/board/Board.tscn").instantiate()
 	root.add_child(board)
 	board.setup(3)
 	await physics_frame
@@ -18,8 +18,8 @@ func run_checks() -> void:
 	board.place({"id": 100, "value": -2, "shape": "card", "cells": [Vector3i.ZERO], "card": 8}, 2, 0)
 	check(is_equal_approx(board.focus.x, board.origins[2].x + 2.0) and is_equal_approx(board.focus.z, board.origins[2].z + 2.0), "Placement focuses destination tower, not controller")
 	check(not other.visible, "Other players' pieces are hidden during placement")
-	var other_label = board.get_children().filter(func(node): return node is Label3D and node.text == "PLAYER 1")[0]
-	check(not other_label.visible, "Other players' mats and labels are hidden during placement")
+	var other_label = board.get_node("Towers/Player1/PlayerLabel")
+	check(not other_label.is_visible_in_tree(), "Other players' mats and labels are hidden during placement")
 	var projected: Vector2 = board.camera.unproject_position(board.focus)
 	check(absf(projected.x - (1280.0 - 370.0) / 2.0) < 2.0, "Tower centered in usable area beside sidebar")
 	var original_yaw: float = board.yaw
@@ -78,6 +78,6 @@ func run_checks() -> void:
 	board.confirm_placement()
 	while board.settling:
 		await physics_frame
-	check(other.visible and other_label.visible, "Other towers return after placement settles")
+	check(other.visible and other_label.is_visible_in_tree(), "Other towers return after placement settles")
 	print("%s camera: destination focus, isolated tower, camera-relative WASD, sidebar framing, left drag, release, tall preview" % ("PASS" if failures == 0 else "FAIL"))
 	quit(0 if failures == 0 else 1)

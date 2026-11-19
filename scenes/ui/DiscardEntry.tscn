@@ -1,0 +1,9 @@
+[gd_scene format=3]
+[node name="DiscardEntry" type="Label"]
+size_flags_horizontal = 3
+mouse_filter = 2
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 17
+text = "L08 Bureaucratic Burden [ON_TURN]
+Choose an opponent. Place a physical -2 card on their tower.
+"

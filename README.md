@@ -29,7 +29,7 @@ At the start of a turn, click **Begin turn**. Resolve any legislation prompts, p
 
 **Green** preview means valid; **red** means outside the footprint, overlapping something, or not high enough for Collapse. The instruction at upper left explains why. The camera automatically centers the destination tower beside the sidebar when placement starts, including transfers and harmful cards placed on opponents. It frames the tower and raised preview together; left-drag orbits and the wheel adjusts zoom. During placement and settling, other towers are hidden so only the destination tower and UI remain visible. Their physics and late-fall checks keep running; they reappear after settling. WASD follows the camera: W moves away, S toward, A left, and D right. Directions snap to the nearest perpendicular grid axes as you orbit, preserving exact one-cell movement. Rotate or translate until the entire piece fits inside the mat. There is no gameplay height limit. Blocs display their **ID and signed point value**; IDs match selection prompts when transferring or relocating pieces.
 
-Physics runs after each release or removal. Input is locked until the affected tower is stable. The Board node in `scenes/Main.tscn` exposes the stability duration (0.75 seconds), velocity thresholds, and ten-second failsafe in the Inspector.
+Physics runs after each release or removal. Input is locked until the affected tower is stable. The Board scene in `scenes/board/Board.tscn` exposes the stability duration (0.75 seconds), velocity thresholds, and ten-second failsafe in the Inspector.
 
 ## Playtesting particular cards
 
@@ -69,9 +69,15 @@ The implementation follows `Bloc_Rules_First_Godot_Prototype_Spec (1).md`. These
 11. **Late falls:** scan all towers continuously, and scan again before assigning a new physical action. A late fall is charged to the previous action until another action actually starts on that tower. Four fallen bodies in that action immediately end play.
 12. **Prototype victory:** score, then fewer total falls, then stable physical height; equal results share victory. Empty towers lose at the start of their Collapse turn. There is no hidden information, networking, save/load, or AI.
 
+## Editable scenes
+
+Open `scenes/Main.tscn` to see saved Board and HUD instances before running. Edit the menu in `scenes/ui/MainMenu.tscn`, interface in `scenes/ui/HUD.tscn`, tower visuals in `scenes/board/Tower.tscn`, and camera/lighting in `scenes/board/Board.tscn`. All ten production shapes live in `scenes/blocs/shapes/`; `BlocLibrary.tscn` shows them together. Results, discard, prompts and dynamic UI rows have their own saved scenes. See [the scene directory guide](scenes/README.md) for the full map.
+
+See the [Godot team guide](docs/team/GODOT_TEAM_GUIDE.md) for exact editing steps and runtime-controlled properties. No plugin is required. Keep tower rotations/scales and the 4×4 physical footprint unchanged unless also updating the grid rules.
+
 ## Files
 
-- `scenes/Main.tscn`: runnable scene and editable Board physics settings.
+- `scenes/Main.tscn`: runnable composition of saved Board and HUD scenes. Board physics settings are in `scenes/board/Board.tscn`.
 - `scripts/main.gd`: startup and scene wiring.
 - `scripts/catalog.gd`: all 11 cards, ten shapes, finite supply and restricted draws.
 - `scripts/game.gd`: turn flow, reactions, card resolution, Collapse, victory, debug operations.
@@ -90,7 +96,7 @@ python3 tests/run_tests.py
 
 The runner uses only Python's standard library and the installed Godot executable. It fails on Godot script errors even if the engine reports exit code zero. No test packages are installed.
 
-The suites cover exact finite supply and fallback, all 11 card effects, replay identity, exemptions/redirection, theft overflow, full turn flow and extra-turn order, real physics bounds/overlap/settling/support removal, late-fall defeat, actual Space input, debug controls, restart during pending placement, and an automated three-player game through to a winner with real physics.
+The eight suites cover saved-scene edits surviving startup, exact finite supply and fallback, all 11 card effects, replay identity, exemptions/redirection, theft overflow, full turn flow and extra-turn order, real physics bounds/overlap/settling/support removal, late-fall defeat, actual Space input, debug controls, restart during pending placement, and an automated three-player game through to a winner with real physics.
 
 `godot --path . --script res://tests/preview.gd` captures UI screenshots under `/tmp` and exits.
 

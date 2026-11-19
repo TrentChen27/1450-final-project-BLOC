@@ -29,6 +29,12 @@ You can also open the repository on GitHub, select **Code → Download ZIP**, an
 3. Select `project.godot` inside the downloaded project folder.
 4. Import and open the project. Wait for Godot to finish importing files.
 
+## Editing the game
+
+Open `scenes/Main.tscn`: the **3D** workspace shows the saved towers and the **2D** workspace shows the HUD/menu. Open `scenes/ui/MainMenu.tscn` for menu text and buttons, `scenes/ui/HUD.tscn` for interface layout, or `scenes/board/Tower.tscn` for foundation visuals. Save changes and press F5 to see them in the game.
+
+See the [scene directory guide](scenes/README.md) for the full scene map and the [Godot team guide](docs/team/GODOT_TEAM_GUIDE.md) for editing steps. Dynamic pieces and choices still appear during play.
+
 ## 4. Run and play
 
 1. Press **F5** or click **Run Project** at the top right. The main scene is already configured.

@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[node name="CardView" type="Button" unique_id=281765262]
+custom_minimum_size = Vector2(0, 42)
+disabled = true
+text = "L08 Bureaucratic Burden / ON_TURN"
+alignment = 0
+autowrap_mode = 3
